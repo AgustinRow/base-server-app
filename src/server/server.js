@@ -13,10 +13,10 @@ app.use(urlencoded({ extended: true }));
 app.use(morgan('dev'));
 app.use('/v1/questionnaire', questionnaireRouter);
 
-const port = 3000;
+const port = process.env.PORT;
 
 export const start = (mongoose) => {
-  mongoose.connect(process.env.DATABASE_URL);
+  mongoose.connect(process.env.URL_ATLAS);
   app.listen(port, () => {
     console.log(`REST API on http://localhost:${port}`);
   });

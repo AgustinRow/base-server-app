@@ -2,7 +2,9 @@ const createQuestionnaire = async ({
   questionareParams,
   questionnaireModel,
 }) => {
-  return await questionnaireModel.create(questionareParams);
+  const result = await questionnaireModel.create(questionareParams);
+  await result.save();
+  return result;
 };
 
 const getQuestionnaireById = async ({
@@ -15,9 +17,21 @@ const getQuestionnaireById = async ({
   );
 };
 
+const getAllQuestionnaries = async ({
+  questionnaireModel,
+  questionnairePage,
+  questionnarieLimit,
+}) => {
+  return questionnaireModel.paginate(
+    {},
+    { limit: questionnarieLimit, page: questionnairePage },
+  );
+};
+
 const questionnaireController = {
   createQuestionnaire,
   getQuestionnaireById,
+  getAllQuestionnaries,
 };
 
 export default questionnaireController;

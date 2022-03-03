@@ -11,6 +11,7 @@ router.post('/', async (req, res) => {
       questionareParams,
       questionnaireModel,
     });
+
     res.status(200).json({ data: questionniare });
   } catch (err) {
     console.error(err);
@@ -37,4 +38,23 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.get('/', async (req, res) => {
+  try {
+    const questionnairePage = parseInt(req.query.page)  || 1;
+    const questionnarieLimit = parseInt(req.query.limit) || 7;
+    const result = await questionnaireController.getAllQuestionnaries({
+      questionnaireModel,
+      questionnairePage,
+      questionnarieLimit,
+    });
+    if (result) {
+      res.status(200).json({ data: result });
+    } else {
+      res.status(404).json({ message: 'questionnaires not found' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
 export default router;
